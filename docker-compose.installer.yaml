@@ -1,0 +1,47 @@
+version: '3'
+services:
+  base:
+    image:  docker.indianic.com/magento2/php/7.4/cli:latest
+    volumes:
+      - ./htdocs:/app:rw,delegated
+      - ~/.composer/cache:/root/.composer/cache
+      - ./auth.json:/root/.composer/auth.json
+    working_dir: /app
+    env_file:
+      - .env
+      - installer.env
+#  mysql:
+#    container_name: magento-mysql
+#    image: docker.indianic.com/magento2/mariadb:10.4
+#    restart: on-failure:5
+#    env_file:
+#      - installer.env
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#      - ./dbs-data:/var/lib/mysql:rw,delegated
+#    networks:
+#      - magento
+  elasticsearch:
+    image: docker.indianic.com/magento2/elasticsearch:7.9.0
+    container_name: magento-elasticsearch
+    env_file:
+      - .env
+    networks:
+      - magento
+    ports:
+      - 9200:9200
+  install:
+    depends_on:
+#      - mysql
+      - elasticsearch
+    extends:
+      service: base
+    command: ['magento-installer']
+    networks:
+          - magento
+#volumes:
+#    dbs-data:
+networks:
+  magento:
+    driver: bridge
