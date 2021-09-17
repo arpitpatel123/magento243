@@ -1,0 +1,89 @@
+docker.indianic.com Login Details
+UserName :- gaurav
+Password :- Indianic@123
+
+
+1) go to Magento Direcrty 
+
+2) Project git clone 
+   git clone http://git.indianic.com/SKM/F2019-5541/magento_docker-2-3.git "Project Folder Name" --branch "branch Name"
+
+3) Go to Project Direcrty
+    "cd test"
+
+4) Copy 3 file
+    cp auth.json.sample auth.json
+    cp .env.sample .env
+    cp installer.env.sample installer.env
+
+5) open File and change Detail
+    nano auth.json
+ 
+ Add Magrnto Authtication Key
+
+User Name=b5c18d0307f8a30e7c421c952af106b8
+PASSWORD=ab6c92836043c4fc6484c364df4fb71f
+
+6) open ".env" File change Details
+   nano .env
+
+OMAIN=magento243.mageinic.com
+MAGENTO_ROOT=/app
+MAGENTO_RUN_MODE=developer
+MFTF_UTILS=0
+UPLOAD_MAX_FILESIZE=64M
+WITH_XDEBUG=0
+FPM_HOST=magento-php-fpm
+FPM_PORT=9000
+FPM_USER=indianic
+FPM_GROUP=indianic
+USER_ID=1000
+GROUP_ID=1000
+XDEBUG_HOST=null
+PHP_MEMORY_LIMIT=4G
+discovery.type=single-node
+CACHE_SIZE=500M
+WEB_CONTAINER_NAME=magento-nginx
+FPM_CONTAINER_NAME=magento-php-fpm
+
+
+7) open installer.env Change Database Details
+    "nano installer.env"
+
+
+SETUP_VERSION=2.4.2
+SETUP_INSTALL_DB=true or false
+SETUP_BASE_URL=https://magento243.mageinic.com/
+SETUP_SECURE_BASE_URL=https://magento243.mageinic.com/
+SETUP_ADMIN_FIRSTNAME=admin
+SETUP_ADMIN_LASTNAME=admin
+SETUP_ADMIN_EMAIL=admin@gmail.com
+SETUP_ADMIN_USER=admin
+SETUP_ADMIN_PASSWORD=admin1234
+SETUP_BACKEND_FRONTNAME=admin
+SETUP_USE_SAMPLE_DATA=false
+
+SESSION_SAVE=redis
+SESSION_SAVE_REDIS_HOST=magento-redis
+SESSION_SAVE_REDIS_PORT=6379
+
+SEARCH_ENGINE=elasticsearch7
+ELASTICSEARCH_HOST=magento-elasticsearch
+ELASTICSEARCH_PORT=9200
+
+
+DB_HOST=magento-mysql
+DB_NAME=magento
+DB_USER=root
+DB_PASSWORD=magento
+MARIADB_ROOT_PASSWORD=magento
+
+
+8) Delete all File From "htdocs" Folder
+    rm -fr htdocs/*
+
+9) after save all details Docker Compose Up
+    docker-compose up -d
+
+10) after all Docker Containor Up and Runing Successful install Magento and Setup Using Below Command
+    docker-compose -f docker-compose.installer.yaml run --rm install
